@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:shop/models/product.dart';
 
+import '../widgets/product_item.dart';
+
 class ProductOverviewScrenn extends StatelessWidget {
   List<Product> productList = [
     Product(
@@ -39,6 +41,25 @@ class ProductOverviewScrenn extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('myShop'),
+      ),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(10.0),
+        itemCount: productList.length,
+        itemBuilder: (ctx, index) => ProductItem(
+          productList[index].id,
+          productList[index].title,
+          productList[index].imageUrl,
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+      ),
+    );
   }
 }
