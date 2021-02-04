@@ -30,7 +30,7 @@ class CartItem extends StatelessWidget {
           context: context,
           builder: (ctx) => AlertDialog(
             title: Text('Are you sure?'),
-            content: Text('Do you want to remove item from the cart'),
+            content: Text('Do you want to remove item from the cart?'),
             actions: [
               FlatButton(
                 onPressed: () {
