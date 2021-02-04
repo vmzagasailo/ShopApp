@@ -40,6 +40,7 @@ class ProductItem extends StatelessWidget {
             icon: Icon(Icons.add_shopping_cart),
             onPressed: () {
               cart.addItem(product.id, product.price, product.title);
+              Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: Theme.of(context).primaryColor,
