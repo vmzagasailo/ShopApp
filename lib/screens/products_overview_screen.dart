@@ -6,6 +6,7 @@ import './cart_screen.dart';
 
 import '../widgets/products_grid.dart';
 import '../widgets/badge.dart';
+import '../widgets/app_drawer.dart';
 
 enum ProductsFilter {
   Favorites,
@@ -22,6 +23,7 @@ class _ProductOverviewScrennState extends State<ProductOverviewScrenn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: AppBar(
         title: const Text('myShop'),
         actions: [
