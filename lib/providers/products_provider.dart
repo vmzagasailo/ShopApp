@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'product.dart';
 
@@ -52,6 +52,15 @@ class ProductsProvider with ChangeNotifier {
   }
 
   void addProduct(Product product) {
+    const url = 'https://shop-dad47-default-rtdb.firebaseio.com/products.json';
+    http.post(url,
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }));
     final newProduct = Product(
       id: DateTime.now().toString(),
       title: product.title,
@@ -68,10 +77,9 @@ class ProductsProvider with ChangeNotifier {
     if (prodIndex >= 0) {
       _items[prodIndex] = product;
       notifyListeners();
-    }else {
-      
-    }
+    } else {}
   }
+
   void deleteProduct(String id) {
     _items.removeWhere((product) => product.id == id);
     notifyListeners();
