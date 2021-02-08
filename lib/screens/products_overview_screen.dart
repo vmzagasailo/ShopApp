@@ -23,10 +23,19 @@ class ProductOverviewScrenn extends StatefulWidget {
 class _ProductOverviewScrennState extends State<ProductOverviewScrenn> {
   var _showOnlyFavorites = false;
   var _isInit = true;
+  var _isLoading = false;
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      Provider.of<ProductsProvider>(context).fetchAndSetProducts();
+      setState(() {
+        _isLoading = true;
+      });
+
+      Provider.of<ProductsProvider>(context).fetchAndSetProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -75,7 +84,11 @@ class _ProductOverviewScrennState extends State<ProductOverviewScrenn> {
           ),
         ],
       ),
-      body: ProductsGrid(_showOnlyFavorites),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsGrid(_showOnlyFavorites),
     );
   }
 }
