@@ -25,7 +25,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartsProducts, double total) async {
-    const url = 'https://shop-dad47-default-rtdb.firebaseio.com/products.json';
+    const url = 'https://shop-dad47-default-rtdb.firebaseio.com/orders.json';
     final timeStamp = DateTime.now();
     final response = await http.post(url,
         body: json.encode({
@@ -49,6 +49,37 @@ class Orders with ChangeNotifier {
         products: cartsProducts,
       ),
     );
+    notifyListeners();
+  }
+
+  Future<void> fetchAndSetOrders() async {
+    const url = 'https://shop-dad47-default-rtdb.firebaseio.com/orders.json';
+    final response = await http.get(url);
+    final List<OrderItem> loadedOrders = [];
+    final extractData = json.decode(response.body) as Map<String, dynamic>;
+    if (extractData == null) {
+      return;
+    }
+    extractData.forEach((orderId, orderData) {
+      loadedOrders.add(
+        OrderItem(
+          id: orderId,
+          amount: orderData['amount'],
+          dateTime: DateTime.parse(orderData['time']),
+          products: (orderData['products'] as List<dynamic>)
+              .map(
+                (item) => CartItem(
+                  id: item['id'],
+                  title: item['title'],
+                  quantity: item['quntity'],
+                  price: item['price'],
+                ),
+              )
+              .toList(),
+        ),
+      );
+    });
+    _orders = loadedOrders;
     notifyListeners();
   }
 }
