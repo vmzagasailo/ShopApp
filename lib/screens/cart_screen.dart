@@ -75,19 +75,26 @@ class OrderButton extends StatefulWidget {
 }
 
 class _OrderButtonState extends State<OrderButton> {
+  var _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: widget.cartData.totalAmount <= 0
+      child: _isLoading ? CircularProgressIndicator() : Text('ORDER NOW'),
+      onPressed: (widget.cartData.totalAmount <= 0 || _isLoading)
           ? null
-          : () {
-              Provider.of<Orders>(context, listen: false).addOrder(
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
+              await Provider.of<Orders>(context, listen: false).addOrder(
                 widget.cartData.items.values.toList(),
                 widget.cartData.totalAmount,
               );
+              setState(() {
+                _isLoading = false;
+              });
               widget.cartData.clear();
             },
-      child: Text('ORDER NOW'),
       textColor: Theme.of(context).primaryColor,
     );
   }
