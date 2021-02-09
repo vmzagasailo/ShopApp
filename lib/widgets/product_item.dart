@@ -19,9 +19,19 @@ class ProductItem extends StatelessWidget {
             Navigator.of(context).pushNamed(ProductDetailScreen.routeName,
                 arguments: product.id);
           },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Container(
+            padding: EdgeInsets.only(top: 10, bottom: 10),
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+        ),
+        header: GridTileBar(
+          backgroundColor: Colors.black54,
+          title: Text(
+            product.title,
+            textAlign: TextAlign.center,
           ),
         ),
         footer: GridTileBar(
@@ -60,7 +70,8 @@ class ProductItem extends StatelessWidget {
             color: Theme.of(context).accentColor,
           ),
           title: Text(
-            product.title,
+            //product.price.toString(),
+            '',
             textAlign: TextAlign.center,
           ),
         ),
