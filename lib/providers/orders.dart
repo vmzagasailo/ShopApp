@@ -18,6 +18,10 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
+  final String authToken;
+
+  Orders(this.authToken, this._orders);
+
   List<OrderItem> _orders = [];
 
   List<OrderItem> get orders {
@@ -25,7 +29,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartsProducts, double total) async {
-    const url = 'https://shop-dad47-default-rtdb.firebaseio.com/orders.json';
+    final url = 'https://shop-dad47-default-rtdb.firebaseio.com/orders.json?auth=$authToken';
     final timeStamp = DateTime.now();
     final response = await http.post(url,
         body: json.encode({
@@ -53,7 +57,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchAndSetOrders() async {
-    const url = 'https://shop-dad47-default-rtdb.firebaseio.com/orders.json';
+    final url = 'https://shop-dad47-default-rtdb.firebaseio.com/orders.json?auth=$authToken';
     final response = await http.get(url);
     final List<OrderItem> loadedOrders = [];
     final extractData = json.decode(response.body) as Map<String, dynamic>;
