@@ -34,6 +34,7 @@ class ProductsProvider with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
+          'creatorId': userId,
         }),
       );
       final newProduct = Product(
@@ -85,9 +86,11 @@ class ProductsProvider with ChangeNotifier {
     existingProduct = null;
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterUser = false]) async {
+    String filterProucts =
+        filterUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url =
-        'https://shop-dad47-default-rtdb.firebaseio.com/products.json?auth=$authToken';
+        'https://shop-dad47-default-rtdb.firebaseio.com/products.json?auth=$authToken&$filterProucts';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
