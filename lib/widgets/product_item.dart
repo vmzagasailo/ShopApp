@@ -23,10 +23,14 @@ class ProductItem extends StatelessWidget {
           },
           child: Container(
             padding: EdgeInsets.only(top: 10, bottom: 10),
-            child: FadeInImage(
-              placeholder: AssetImage('assets/images/product-placeholder.png'),
-              image: NetworkImage(product.imageUrl),
-              fit: BoxFit.fitHeight,
+            child: Hero(
+              tag: product.id,
+              child: FadeInImage(
+                placeholder:
+                    AssetImage('assets/images/product-placeholder.png'),
+                image: NetworkImage(product.imageUrl),
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
         ),
